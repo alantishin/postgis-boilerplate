@@ -46,6 +46,6 @@ services:
           - ./data/pgadmin/servers.json:/pgadmin4/servers.json
         environment:
           - PGADMIN_DEFAULT_EMAIL=user@domain.com
-          - PGADMIN_DEFAULT_PASSWORD=admin1
+          - PGADMIN_DEFAULT_PASSWORD=qwerty
         ports:
           - 32770:80
