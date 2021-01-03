@@ -34,18 +34,18 @@ services:
         command: postgres
 
 
-    # pgadmin:
-    #     image: dpage/pgadmin4
-    #     depends_on:
-    #       db:
-    #           condition: service_healthy
-    #     volumes:
-    #       - ./data/pgadmin/lib:/var/lib/pgadmin
-    #       - ./data/pgadmin/certificate.cert:/certs/server.cert
-    #       - ./data/pgadmin/certificate.key:/certs/server.key
-    #       - ./data/pgadmin/servers.json:/pgadmin4/servers.json
-    #     environment:
-    #       - PGADMIN_DEFAULT_EMAIL=user@domain.com
-    #       - PGADMIN_DEFAULT_PASSWORD=admin1
-    #     ports:
-    #       - 32770:80
+    pgadmin:
+        image: dpage/pgadmin4
+        depends_on:
+          db:
+              condition: service_healthy
+        volumes:
+          - ./data/pgadmin/lib:/var/lib/pgadmin
+          - ./data/pgadmin/certificate.cert:/certs/server.cert
+          - ./data/pgadmin/certificate.key:/certs/server.key
+          - ./data/pgadmin/servers.json:/pgadmin4/servers.json
+        environment:
+          - PGADMIN_DEFAULT_EMAIL=user@domain.com
+          - PGADMIN_DEFAULT_PASSWORD=admin1
+        ports:
+          - 32770:80
