@@ -1,0 +1,51 @@
+version: '2.4'
+services:
+    importer:
+        build:
+            context: ./importer
+            dockerfile: Dockerfile
+        command: bash
+        tty: true
+        stdin_open: true
+        volumes:
+            - ./importer:/home/app
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=qwerty
+            - POSTGRES_DB=root
+            - POSTGRES_HOST=db
+
+    db:
+        image: postgis/postgis
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U root"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        volumes:
+            - ./data/db:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=root
+            - POSTGRES_PASSWORD=qwerty
+            - POSTGRES_DB=root
+            - PGDATA=/var/lib/postgresql/data/pgdata
+        ports:
+            - 5432:5432
+        command: postgres
+
+
+    # pgadmin:
+    #     image: dpage/pgadmin4
+    #     depends_on:
+    #       db:
+    #           condition: service_healthy
+    #     volumes:
+    #       - ./data/pgadmin/lib:/var/lib/pgadmin
+    #       - ./data/pgadmin/certificate.cert:/certs/server.cert
+    #       - ./data/pgadmin/certificate.key:/certs/server.key
+    #       - ./data/pgadmin/servers.json:/pgadmin4/servers.json
+    #     environment:
+    #       - PGADMIN_DEFAULT_EMAIL=user@domain.com
+    #       - PGADMIN_DEFAULT_PASSWORD=admin1
+    #     ports:
+    #       - 32770:80
